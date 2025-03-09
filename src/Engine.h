@@ -20,6 +20,7 @@ private:
     bool isRunning;
     void Update();
     void Render();
+    RenderTexture2D viewportTex; // Render Texture for Raylib
 };
 
 

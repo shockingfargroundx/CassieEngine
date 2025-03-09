@@ -1,11 +1,12 @@
 #include "Engine.h"
-#include "iostream"
+#include <iostream>
 #include "backends/imgui_impl_glfw.h"
 #include "backends/imgui_impl_opengl3.h"
 #include <GLFW/glfw3.h>  // Include GLFW for OpenGL context management
 
 Engine::Engine(int width, int height, const char* title) {
     InitWindow(width, height, title);
+    SetWindowState(FLAG_FULLSCREEN_MODE);
     SetTargetFPS(60);
 
     rlImGuiSetup(true);
@@ -16,6 +17,7 @@ Engine::Engine(int width, int height, const char* title) {
     io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;  // Optional: Multi-window support
 
     isRunning = !WindowShouldClose();
+    viewportTex = LoadRenderTexture(width, height);
 
 }
 
@@ -35,25 +37,6 @@ void Engine::Run() {
 void Engine::Update() {
     // Handle input (no camera controls right now depricated)
 
-        // Handle keyboard input (e.g., moving an object with arrow keys)
-    if (IsKeyDown(KEY_D)) {
-        // Move object right
-    }
-    if (IsKeyDown(KEY_A)) {
-        // Move object left
-    }
-    if (IsKeyDown(KEY_W)) {
-        // Move object up
-    }
-    if (IsKeyDown(KEY_S)) {
-        // Move object down
-    }
-
-    // Handle mouse input (e.g., left-click to change color)
-    if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
-        // Change something or trigger an event on mouse click
-    }
-
     // Get mouse position
     Vector2 mousePosition = GetMousePosition();
     // Maybe use the mouse position to interact with objects or UI
@@ -61,22 +44,32 @@ void Engine::Update() {
 }
 
 void Engine::Render() {
-    // Start drawing
-    BeginDrawing();
-    ClearBackground(RAYWHITE);
+
+
+
+    // In theory this will render in tex mode
+    BeginTextureMode(viewportTex);  
+
+    ClearBackground(GRAY); 
+
+    DrawText("Game Scene Goes Here", 50, 50, 20, RAYWHITE); 
+
+    EndTextureMode(); // End Tex mode
+
 
         rlImGuiBegin();  // Render Imgui context
 
         // Create a fullscreen dockspace
-        //ImGui::DockSpaceOverViewport();
         ImGui::Begin("DockSpace");
         ImGui::DockSpace(ImGui::GetID("MainDockspace"));
            ImGui::End();
 
+           //Test Cube Settings
         ImGui::Begin("Cube Settings Test");
-        ImGui::Text("Hello World from ImGUI");
+        ImGui::Text("Select a Prop");
         ImGui::End();
 
+        //File Tree
         ImGui::Begin("File Heiharchy");
 
         if (ImGui::TreeNode("Assets")) {
@@ -95,30 +88,33 @@ void Engine::Render() {
             ImGui::TreePop();
         }
         ImGui::End();
+
         // Viewport
-        ImGui::Begin("Viewport Panel");
-        ImGui::Text("Game Rendering GOes here");
+        ImGui::Begin("Viewport");
+        rlImGuiImageRenderTexture(&viewportTex);
+
         ImGui::End();
 
+        //Inspector
         ImGui::Begin("Inspector");
         ImGui::Text("Object Settings go here");
-        ImGui::End();
-        // Rendering 
 
+        ImGui::End();
+
+
+
+        // Rendering 
 
         rlImGuiEnd();  // End ImGui frame
 
-        DrawText("Congrats! You created your first window!", 190, 200, 20, LIGHTGRAY);
-        DrawRectangle(190, 200, 15, 15, RED);
+        /*DrawText("Congrats! You created your first window!", 190, 200, 20, LIGHTGRAY);
+        DrawRectangle(190, 200, 15, 15, RED);*/
 
     
-    // End drawing
-    EndDrawing();
+        EndDrawing();
 
 }
-void Viewport(){
-            ImGui::Begin("Viewport");
-        ImVec2 viewportSize = ImGui::GetContentRegionAvail(); // Get size of the viewport
-
-        ImGui::End;
-}
+//void Viewport(){
+//
+//            
+//}
