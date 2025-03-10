@@ -6,7 +6,6 @@
 
 Engine::Engine(int width, int height, const char* title) {
     InitWindow(width, height, title);
-    SetWindowState(FLAG_FULLSCREEN_MODE);
     SetTargetFPS(60);
 
     rlImGuiSetup(true);
@@ -48,73 +47,73 @@ void Engine::Render() {
 
 
     // In theory this will render in tex mode
-    BeginTextureMode(viewportTex);  
+    BeginTextureMode(viewportTex);
 
-    ClearBackground(GRAY); 
+    ClearBackground(GRAY);
 
-    DrawText("Game Scene Goes Here", 50, 50, 20, RAYWHITE); 
+    DrawText("Game Scene Goes Here", 50, 50, 20, RAYWHITE);
 
     EndTextureMode(); // End Tex mode
 
 
-        rlImGuiBegin();  // Render Imgui context
+    rlImGuiBegin();  // Render Imgui context
 
-        // Create a fullscreen dockspace
-        ImGui::Begin("DockSpace");
-        ImGui::DockSpace(ImGui::GetID("MainDockspace"));
-           ImGui::End();
+    // Create a fullscreen dockspace
+    ImGui::Begin("DockSpace");
+    ImGui::DockSpace(ImGui::GetID("MainDockspace"));
+    ImGui::End();
 
-           //Test Cube Settings
-        ImGui::Begin("Cube Settings Test");
-        ImGui::Text("Select a Prop");
-        ImGui::End();
+    //Test Cube Settings
+    ImGui::Begin("Object Settings");
+    ImGui::Text("Select a Prop");
+    ImGui::End();
 
-        //File Tree
-        ImGui::Begin("File Heiharchy");
+    //File Tree
+    ImGui::Begin("File Heiharchy Test");
 
-        if (ImGui::TreeNode("Assets")) {
-            if (ImGui::TreeNode("Textures")) {
-                ImGui::Text("texture1.png");
-                ImGui::Text("texture2.png");
-                ImGui::TreePop();
-            }
-
-            if (ImGui::TreeNode("Models")) {
-                ImGui::Text("model1.obj");
-                ImGui::Text("model2.obj");
-                ImGui::TreePop();
-            }
-
+    if (ImGui::TreeNode("Assets")) {
+        if (ImGui::TreeNode("Textures")) {
+            ImGui::Text("texture1.png");
+            ImGui::Text("texture2.png");
             ImGui::TreePop();
         }
-        ImGui::End();
 
-        // Viewport
-        ImGui::Begin("Viewport");
-        rlImGuiImageRenderTexture(&viewportTex);
+        if (ImGui::TreeNode("Models")) {
+            ImGui::Text("model1.obj");
+            ImGui::Text("model2.obj");
+            ImGui::TreePop();
+        }
 
-        ImGui::End();
+        ImGui::TreePop();
+    }
+    ImGui::End();
 
-        //Inspector
-        ImGui::Begin("Inspector");
-        ImGui::Text("Object Settings go here");
+    // Viewport
+    ImGui::Begin("Viewport");
+    rlImGuiImageRenderTexture(&viewportTex);
 
-        ImGui::End();
+    ImGui::End();
+
+    //Inspector
+    ImGui::Begin("Inspector");
+    ImGui::Text("Object Settings go here");
+
+    ImGui::End();
 
 
 
-        // Rendering 
+    // Rendering 
 
-        rlImGuiEnd();  // End ImGui frame
+    rlImGuiEnd();  // End ImGui frame
 
-        /*DrawText("Congrats! You created your first window!", 190, 200, 20, LIGHTGRAY);
-        DrawRectangle(190, 200, 15, 15, RED);*/
+    /*DrawText("Congrats! You created your first window!", 190, 200, 20, LIGHTGRAY);
+    DrawRectangle(190, 200, 15, 15, RED);*/
 
-    
-        EndDrawing();
 
+    EndDrawing();
 }
-//void Viewport(){
-//
-//            
-//}
+
+class BoxObject {
+
+
+};
