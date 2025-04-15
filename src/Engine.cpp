@@ -55,8 +55,9 @@ void Engine::Render() {
 
     EndTextureMode(); // End Tex mode
 
-
     rlImGuiBegin();  // Render Imgui context
+
+
 
     // Create a fullscreen dockspace
     ImGui::Begin("DockSpace");
